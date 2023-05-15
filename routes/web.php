@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\NewController;
+use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,4 +31,22 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
+
+Route::get('recipes', [NewController::class, 'searchRecipes'])
+    ->middleware('auth')
+    ->name('recipes');
+
+
+Route::get('food', [NewController::class, 'getFood'])
+    ->middleware('auth')
+    ->name('food');
+
+
+Route::get('menu', [NewController::class, 'searchFood'])
+    ->name('menu');
+    
+
+/*Route::get('menu/search', [AdminController::class, 'prueba'])
+    ->middleware('auth')
+    ->name('menu/search');*/
