@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\RecipeController;
 use App\Http\Controllers\NewController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ProfileController;
@@ -33,20 +33,53 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__ . '/auth.php';
 
-Route::get('recipes', [NewController::class, 'searchRecipes'])
+Route::get('recipes', [NewController::class, 'listRecipes'])
     ->middleware('auth')
     ->name('recipes');
 
 
-Route::get('food', [NewController::class, 'getFood'])
+Route::get('recipes/create', [RecipeController::class, 'createRecipe'])
+    ->middleware('auth')
+    ->name('recipe/create');
+
+Route::get('recipes/save', [RecipeController::class, 'saveRecipe'])
+    ->middleware('auth')
+    ->name('recipes/save');
+
+Route::get('recipes/users', [RecipeController::class, 'listRecipesUsers'])
+    ->middleware('auth')
+    ->name('recipes/users');
+
+Route::get('recipe/description/{valor}', [NewController::class, 'getRecipes'])
+    ->middleware('auth')
+    ->name('recipe/description');
+
+Route::get('recipe/users/description/{valor}', [RecipeController::class, 'recipeUserDescription'])
+    ->middleware('auth')
+    ->name('recipe/users/description');
+
+
+/*Route::get('recipe/description', [RecipeController::class, 'descriptionRecipe'])
+    ->middleware('auth')
+    ->name('recipe/description');*/
+
+Route::get('food', [NewController::class, 'searchFoods'])
     ->middleware('auth')
     ->name('food');
 
-
-Route::get('menu', [NewController::class, 'searchFood'])
-    ->name('menu');
-    
-
-/*Route::get('menu/search', [AdminController::class, 'prueba'])
+Route::get('food/description/{valor}', [NewController::class, 'getFood'])
     ->middleware('auth')
-    ->name('menu/search');*/
+    ->name('food/description');
+
+
+Route::get('menu', [NewController::class, 'searchRecipes'])
+    ->middleware('auth')
+    ->name('menu');
+
+Route::get('menu/save', [MenuController::class, 'createMenu'])
+    ->middleware('auth')
+    ->name('menu/save');
+
+Route::get('menu/create', [MenuController::class, 'listmenu'])
+    ->middleware('auth')
+    ->name('menu/create');

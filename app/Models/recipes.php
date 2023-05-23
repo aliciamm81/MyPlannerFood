@@ -1,0 +1,29 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class recipes extends Model
+{
+    protected $table = 'recipes';
+    protected $fillable = [
+        'id',
+        'recipe_name',
+        'recipe_description',
+        'ingredient',
+        'calories',
+        'carbohydrate',
+        'fat',
+        'protein',
+        'recipe_image',
+        'user_id',
+
+    ];
+    use HasFactory;
+    /*  public function user()
+    {
+        return $this->hasMany(User::class);
+    }*/
+}

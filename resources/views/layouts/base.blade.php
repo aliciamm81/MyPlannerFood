@@ -26,11 +26,27 @@
             <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-body-tertiary sidebar collapse">
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
-                        <li class="nav-item p-3">
-                            <a class="navbar-brand" href="/recipes"><i class="fas fa-home"></i>&nbsp Recipes</a>
+                        <li class="nav-item p-3 dropdown">
+                            <a class="navbar-brand dropdown-toggle" data-bs-toggle="dropdown"><i
+                                    class="fas fa-home"></i>&nbsp
+                                Recipes</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/recipes">Recipes</a></li>
+                                <li><a class="dropdown-item" href="/recipes/create">Create Recipes</a></li>
+                                <li><a class="dropdown-item" href="/recipes/users">Recipes Users</a></li>
+
+
+                            </ul>
                         </li>
-                        <li class="nav-item p-3">
-                            <a class="navbar-brand" href="/menu"><i class="fas fa-home"></i>&nbsp Menu</a>
+                        <li class="nav-item p-3 dropdown">
+                            <a class="navbar-brand dropdown-toggle" data-bs-toggle="dropdown" href="/menu"><i
+                                    class="fas fa-home"></i>&nbsp Menu</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="/menu">Create menu</a></li>
+                                <li><a class="dropdown-item" href="/menu/create">List Menu</a></li>
+
+                            </ul>
+
                         </li>
                         <li class="nav-item p-3">
                             <a class="navbar-brand" href="/food"><i class="fas fa-home"></i>&nbsp Food</a>

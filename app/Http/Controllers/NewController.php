@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 //use Google\Cloud\Translate\V2\TranslateClient
+use Illuminate\Support\Facades\Session;
 
 class NewController extends Controller
 {
@@ -13,49 +14,142 @@ class NewController extends Controller
      * después decodifica la respuesta JSON en un array asociativo de PHP
      * y devuelve la vista con los datos de las recetas obtenidos de la API
      *  */
-    public function searchRecipes()
+    public function listRecipes()
     {
-        $qry_str = "?method=recipes.search.v3&format=json";
-        $curlData = $this->ejecutarCurl($qry_str);
+        $qry_str          = "?method=recipes.search.v3&format=json";
+        $curlData         = $this->ejecutarCurl($qry_str);
         $datosRecipesList = json_decode($curlData, true);
         return view('vista_recipes', ['recipeList' => $datosRecipesList['recipes']['recipe']]);
     }
-    public function getFood()
+
+    public function searchRecipes(Request $request)
     {
-        $qry_str = "?method=food.get.v2&food_id=1325&format=json";
-        $curlData = $this->ejecutarCurl($qry_str);
-        $datosFood = json_decode($curlData, true);
-        return view('vista_food', ['food' => $datosFood]);
+        $datos = [];
+        echo "inicio ";
+        switch ($request->input('action')) {
+
+            case 'search':
+
+                if ($request->has('searchRecipe')) {
+                    $texto_busqueda = $request->input('searchRecipe');
+                    echo $texto_busqueda;
+
+                    //$datos = $this->callApiFoodsSearch($texto_busqueda);
+                    $datos = $this->callApiRecipesSearch($texto_busqueda);
+                    echo " fin";
+                    return view('vista_menu', ['foodList' => $datos]);
+                }
+
+                break;
+
+            case 'add':
+                $texto_franja = $request->input('selectFranja');
+                echo $texto_franja;
+                $selectRecipe = $request->input('selectRecipe');
+                echo $selectRecipe;
+                echo "--";
+                $parts = explode(':', $selectRecipe); // busca el identificador ":" dentro de la cadena y lo guarda en un array
+                $id = $parts[0];
+                $name = $parts[1];
+                if ($texto_franja != "" && $selectRecipe != "") {
+                    if ($texto_franja == 1) {
+                        echo " desayuno";
+                        Session::put('selectedBreakfast', $name);
+                        Session::put('selectedBreakfast_id', $id);
+
+                        echo Session::get('selectedBreakfast');
+                    } else if ($texto_franja == 2) {
+                        echo " comida";
+                        Session::put('selectedLunch', $name);
+                        Session::put('selectedLunch_id', $id);
+                        echo Session::get('selectedLunch');
+                    } else if ($texto_franja == 3) {
+                        echo " snack";
+                        Session::put('selectedSnack', $name);
+                        Session::put('selectedSnack_id', $id);
+                        echo Session::get('selectedSnack');
+                    } else if ($texto_franja == 4) {
+                        echo " dinner";
+                        Session::put('selectedDinner', $name);
+                        Session::put('selectedDinner_id', $id);
+                        echo Session::get('selectedDinner');
+                    }
+                } else {
+                    echo "caca";
+                }
+                break;
+        }
+        return view('vista_menu');
     }
 
-    public function searchFood(Request $request)
+    public function searchFoods(Request $request)
     {
-        echo 'inicio ';
         $datos = [];
+        echo "inicio ";
+
         if ($request->has('searchFood')) {
             $texto_busqueda = $request->input('searchFood');
             echo $texto_busqueda;
 
-            $qry_str = '?method=foods.search&format=json&search_expression=' . $texto_busqueda;
-            $curlData = $this->ejecutarCurl($qry_str);
-            $datosFoodList = json_decode($curlData, true);
-
-            if (isset($datosFoodList['foods']) && isset($datosFoodList['foods']['food'])) {
-                $datos = $datosFoodList['foods']['food'];
-            }
+            $datos = $this->callApiFoodsSearch($texto_busqueda);
+            echo " fin";
+            return view('vista_food', ['foodList' => $datos]);
         }
-        echo " fin";
 
-        return view('vista_menu', ['foodList' => $datos]);
+        return view('vista_food');
     }
-    public function getRecipes()
+
+    public function callApiRecipesSearch(string $texto_busqueda)
     {
-        $qry_str = "?method=recipe.get.v2&recipe_id=68845510&format=json";
-        $curlData = $this->ejecutarCurl($qry_str);
+        $datos = [];
+
+        $qry_str          = '?method=recipes.search.v3&format=json&search_expression=' . $texto_busqueda;
+        $curlData         = $this->ejecutarCurl($qry_str);
+        $datosRecipesList = json_decode($curlData, true);
+
+        if (isset($datosRecipesList['recipes']) && isset($datosRecipesList['recipes']['recipe'])) {
+            $datos = $datosRecipesList['recipes']['recipe'];
+        }
+
+        return $datos;
+    }
+
+    private function callApiFoodsSearch(string $texto_busqueda)
+    {
+        $datos = [];
+
+        $qry_str       = '?method=foods.search&format=json&search_expression=' . $texto_busqueda;
+        $curlData      = $this->ejecutarCurl($qry_str);
+        $datosFoodList = json_decode($curlData, true);
+
+        if (isset($datosFoodList['foods']) && isset($datosFoodList['foods']['food'])) {
+            $datos = $datosFoodList['foods']['food'];
+        }
+
+        return $datos;
+    }
+
+    public function getRecipes($valor)
+    {
+        $id_recipe = $valor;
+        $qry_str      = '?method=recipe.get.v2&recipe_id=' . $id_recipe . '&format=json';
+        $curlData     = $this->ejecutarCurl($qry_str);
         $datosRecipes = json_decode($curlData, true);
 
-        return view('vista_recipes', ['recipe' => $datosRecipes]);
+
+        return view('vista_recipe_description', ['recipes' => $datosRecipes['recipe']]);
     }
+
+    public function getFood($valor)
+    {
+        $id_recipe = $valor;
+        $qry_str   = '?method=food.get.v2&food_id=' . $id_recipe . '&format=json';
+        $curlData  = $this->ejecutarCurl($qry_str);
+        $datosFood = json_decode($curlData, true);
+
+        return view('vista_food_description', ['datosfood' => $datosFood['food']]);
+    }
+
 
     /**
      * 
@@ -67,11 +161,11 @@ class NewController extends Controller
      */
     public function ejecutarCurl($qry_str)
     {
-        $url = 'https://platform.fatsecret.com/rest/server.api';
+        $url     = 'https://platform.fatsecret.com/rest/server.api';
         $headers = array(
             'Authorization: Bearer ' . $this->solicitarToken(),
         );
-        $curl = curl_init();
+        $curl    = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url . $qry_str);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
@@ -92,8 +186,8 @@ class NewController extends Controller
      */
     public function solicitarToken()
     {
-        $url = 'https://oauth.fatsecret.com/connect/token';
-        $clienteID = '05f6f08122ac4adebe6e08096e1a7bc3';
+        $url            = 'https://oauth.fatsecret.com/connect/token';
+        $clienteID      = '05f6f08122ac4adebe6e08096e1a7bc3';
         $clienteSecreto = 'ab57bdc41a4b4daaaff5dc393ece1f8d';
 
         $opciones = array(
@@ -116,61 +210,4 @@ class NewController extends Controller
         $data = json_decode($data, true);
         return $data['access_token'];
     }
-
-
-    /* Esta función es para intentar traducir la página pero no he conseguido que funcione  
-    public function translateJson()
-    {
-        $json = '{"name": "John", "age": 30, "city": "New York"}';
-        $array = json_decode($json, true);
-    
-        $key = 'YOUR_AZURE_TRANSLATOR_TEXT_KEY';
-        $endpoint = 'YOUR_AZURE_TRANSLATOR_TEXT_ENDPOINT';
-    
-        $client = new TranslatorTextAPI($key, $endpoint);
-    
-        foreach ($array as $key => $value) {
-            $params = array(
-                "api-version" => "3.0",
-                "from" => "en",
-                "to" => "es",
-                "textType" => "plain"
-            );
-            $body = array(
-                array(
-                    'text' => $value
-                )
-            );
-            $serializer = new XmlSerializer();
-            $response = $client->translateArray($body, $params);
-    
-            $translated = $response[0]['translations'][0]['text'];
-            $array[$key] = $translated;
-        }
-    
-        return response()->json($array);
-    }*/
-    /*   
-    public function login ($usr,$key){
-
-        if (isset($_POST["enviar"])){
-            $name = $_POST["usuario"];
-            $passw = $_POST["passw"];
-        }else {
-            $name = "";
-            $passw = "";
-        }
-        if ($name != "" && $passw != "") {
-
-            if ($name == $usr && crypt($passw,'$1$somethin$') == $key) {
-            
-                $id = session_id();
-                $_SESSION["usuario"] = $name;
-                header("Location:sesion.php");
-            } else {
-                $mensaje = "Credenciales incorrectas";
-            }
-        } else $mensaje="Introduza algún valor";
-
-    }*/
 }

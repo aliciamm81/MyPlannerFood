@@ -2,54 +2,133 @@
 
 @section('content')
     @parent
-
     <div class="container">
-        <div class="col-md-6">
-            <div class="mb-3">
+        <div class="col-md-12">
+            <div class="mb-12">
                 <h4>Crea tu Menu</h4>
             </div>
-            <div class="mb-3">
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Selecciona el día de la semana</option>
-                    <option value="1">Lunes</option>
-                    <option value="2">Martes</option>
-                    <option value="3">Miercoles</option>
-                    <option value="4">Jueves</option>
-                    <option value="5">Viernes</option>
-                    <option value="6">Sábado</option>
-                    <option value="7">Domingo</option>
-                </select>
-            </div>
-            <div class="mb-3">
+            <div class="col-md-12">
                 <form class="d-flex" method="get" action="{{ route('menu') }}">
                     @csrf
-                    <input class="form-control me-2" type="text" placeholder="recipe" aria-label="Search"
-                        name="searchFood">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-                @if ($foodList)
-                    <select class="form-select" aria-label="Default select example">
-                        <option selected>Open this select menu</option>
-                        @foreach ($foodList as $receta)
-                            <option>{{ $receta['food_name'] }}</option>
-                        @endforeach
-                    </select>
-                @else
-                    <h3>Inserta un valor</h3>
-                @endif
-            </div>
+                    <div class="col-md-8 mb-4">
+                        <table class="table">
+                            <tr>
+                                <td>
+                                    <select class="form-select" aria-label="Default select example" name="selectFranja"
+                                        id="selectFranja">
 
-        </div>
-        <div class="col-md-4">
-            <div class="mb-3">
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>selecciona tipo</option>
-                    <option value="1">Desayuno</option>
-                    <option value="2">Comida</option>
-                    <option value="3">Merienda</option>
-                    <option value="3">Cena</option>
-                </select>
+                                        <option selected value="1">Desayuno</option>
+                                        <option value="2">Comida</option>
+                                        <option value="3">Merienda</option>
+                                        <option value="4">Cena</option>
+                                    </select>
+                                </td>
+
+                                <td>
+                                    <select class="form-select" aria-label="Default select example" name="selectRecipe"
+                                        id="selectRecipe">
+                                        <option selected></option>
+                                        @isset($foodList)
+                                            @foreach ($foodList as $receta)
+                                                <option value="{{ $receta['recipe_id'] }}:{{ $receta['recipe_description'] }}">
+                                                    {{ $receta['recipe_description'] }}</option>
+                                            @endforeach
+                                        @endisset
+                                    </select>
+                                </td>
+
+                                <td><input class="form-control me-2" type="text" placeholder="" aria-label="Search"
+                                        name="searchRecipe">
+                                </td>
+
+                                <td>
+                                    <button class="btn btn-outline-success" type="submit" name="action"
+                                        value="search">Search</button>
+                                </td>
+
+                                <td>
+                                    <button class="btn btn-outline-success" type="submit" name="action"
+                                        value="add">Add</button>
+                                </td>
+
+                            </tr>
+                        </table>
+                    </div>
+                </form>
+
+                <form class="d-flex" method="get" action="{{ route('menu/save') }}">
+                    <table class="table-primary">
+                        <tr>
+                            <td> <select class="form-select" aria-label="Default select example" id="selectDay1"
+                                    name="day">
+
+                                    <option selected value="Lunes">Lunes</option>
+                                    <option value="Martes">Martes</option>
+                                    <option value="Miercoles">Miercoles</option>
+                                    <option value="Jueves">Jueves</option>
+                                    <option value="Viernes">Viernes</option>
+                                    <option value="Sábado">Sábado</option>
+                                    <option value="Domingo">Domingo</option>
+                                </select></td>
+                        </tr>
+
+                        <tr>
+                            <td><input type="text" id="selectedBreakfast_id"
+                                    value="{{ Session::get('selectedBreakfast_id') }}" name="selectedBreakfast_id" readonly>
+                            </td>
+
+                            <td><input type="text" id="selectedBreakfast" value="{{ Session::get('selectedBreakfast') }}"
+                                    name="selectedBreakfast" readonly></td>
+
+                            <td><input type="text" id="labelBreakfast" value="Desayuno" name="labelBreakfast" readonly>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" id="selectedLunch_id" value="{{ Session::get('selectedLunch_id') }}"
+                                    name="selectedLunch_id" readonly>
+                            </td>
+                            <td><input type="text" id="selectedLunch" value="{{ Session::get('selectedLunch') }}"
+                                    name="selectedLunch" readonly></td>
+                            <td><input type="text" id="labelLunch" value="Comida" name="labelLunch" readonly></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" id="selectedSnack_id" value="{{ Session::get('selectedSnack_id') }}"
+                                    name="selectedSnack_id" readonly>
+                            </td>
+                            <td><input type="text" id="selectedSnack" value="{{ Session::get('selectedSnack') }}"
+                                    name="selectedSnack" readonly></td>
+
+                            <td><input type="text" id="labelSnack" value="Merienda" name="labelSnack" readonly></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text" id="selectedDinner_id"
+                                    value="{{ Session::get('selectedDinner_id') }}" name="selectedDinner_id" readonly>
+                            <td><input type="text" id="selectedDinner" value="{{ Session::get('selectedDinner') }}"
+                                    name="selectedDinner" readonly></td>
+
+                            <td><input type="text" id="labelDinner" value="Cena" name="labelDinner" readonly></td>
+                        </tr>
+
+
+
+                        <td><label>Name Menu</label> <select class="form-select" aria-label="Default select example"
+                                id="menuName" name="menuName">
+
+                                <option selected value="Semana1">Semana1</option>
+                                <option value="Samana2">Samana2</option>
+                                <option value="Semana3">Semana3</option>
+                                <option value="Semana4">Semana4</option>
+                                <option value="Semana5">Semana5</option>
+                                <option value="Semana6">Semana6</option>
+                            </select>
+                        </td>
+
+
+                    </table>
+                    <button class="btn btn-outline-success" type="submit">Save</button>
+
+
+                </form>
+
             </div>
-        </div>
-    </div>
-@endsection
+        @endsection
