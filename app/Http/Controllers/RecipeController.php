@@ -64,6 +64,6 @@ class RecipeController extends Controller
             ->where('id', '=', $valor)
             ->get();
 
-        return view('vista_recipe_users_description', ['recipes' => $recipes]);
+        return view('vista_recipe_users', ['recipes' => $recipes]);
     }
 }

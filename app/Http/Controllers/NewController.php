@@ -16,7 +16,7 @@ class NewController extends Controller
      *  */
     public function listRecipes()
     {
-        $qry_str          = "?method=recipes.search.v3&format=json";
+        $qry_str          = "?method=recipes.search.v3&format=json&page_number=50";
         $curlData         = $this->ejecutarCurl($qry_str);
         $datosRecipesList = json_decode($curlData, true);
         return view('vista_recipes', ['recipeList' => $datosRecipesList['recipes']['recipe']]);

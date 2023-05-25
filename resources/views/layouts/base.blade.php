@@ -16,6 +16,30 @@
 
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
         integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
+
+    <style>
+        #sidebarMenu {
+            background-color: $green-200;
+        }
+
+        a {
+            text-decoration-line: none;
+            color: green;
+        }
+
+        th {
+            color: green;
+
+        }
+
+        body {
+
+            font-family: 'Assistant', sans-serif;
+        }
+    </style>
 
 
 </head>
@@ -23,9 +47,10 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-body-tertiary sidebar collapse">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block text-bg-success sidebar collapse">
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
+                        <li><img src="{{ asset('images/logo1.png') }}"class="img-thumbnail"></li>
                         <li class="nav-item p-3 dropdown">
                             <a class="navbar-brand dropdown-toggle" data-bs-toggle="dropdown"><i
                                     class="fas fa-home"></i>&nbsp
