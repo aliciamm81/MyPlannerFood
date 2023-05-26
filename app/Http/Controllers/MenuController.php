@@ -16,34 +16,39 @@ class MenuController extends Controller
 
     function createMenu(Request $request)
     {
-
-        $menu = new menu();
-        $menu->dia = $request->input('day');
-        $menu->id_recipe_breakfast = $request->input('selectedBreakfast_id');
-        $menu->name_breakfast = $request->input('selectedBreakfast');
+        if (isset($request->input)) {
 
 
-        $menu->id_recipe_lunch = $request->input('selectedLunch_id');
-        $menu->name_lunch = $request->input('selectedLunch');
+            $menu = new menu();
+            $menu->dia = $request->input('day');
+            $menu->id_recipe_breakfast = $request->input('selectedBreakfast_id');
+            $menu->name_breakfast = $request->input('selectedBreakfast');
 
 
-        $menu->id_recipe_snack = $request->input('selectedSnack_id');
-        $menu->name_snack = $request->input('selectedSnack');
+            $menu->id_recipe_lunch = $request->input('selectedLunch_id');
+            $menu->name_lunch = $request->input('selectedLunch');
 
 
-        $menu->id_recipe_dinner = $request->input('selectedDinner_id');
-        $menu->name_dinner = $request->input('selectedDinner');
+            $menu->id_recipe_snack = $request->input('selectedSnack_id');
+            $menu->name_snack = $request->input('selectedSnack');
 
 
-        $menu->name = $request->input('menuName');
-        $menu->user_id = Auth::user()->id;
-
-        $menu->save();
-
-        $this->deleteSession();
+            $menu->id_recipe_dinner = $request->input('selectedDinner_id');
+            $menu->name_dinner = $request->input('selectedDinner');
 
 
-        return view('vista_menu');
+            $menu->name = $request->input('menuName');
+            $menu->user_id = Auth::user()->id;
+
+            $menu->save();
+
+            $this->deleteSession();
+
+
+            return view('vista_menu');
+        } else {
+            return view('vista_menu');
+        }
     }
 
     public function deleteSession()

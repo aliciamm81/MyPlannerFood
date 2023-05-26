@@ -4,60 +4,63 @@
     @parent
 
     <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <h4>Crea tu Menu</h4>
-                <form class="d-flex" method="get" action="{{ route('menu') }}">
-                    @csrf
-                    <div class="col-md-12 mb-4  me-3 ">
-                        <table class="table">
-                            <tr>
 
-                                <td><input class="form-control " type="text" placeholder="Search recipe"
-                                        aria-label="Search" name="searchRecipe">
-                                </td>
+        <h1>Create Menu</h1>
+        <form class=" mt-4" method="get" action="{{ route('menu') }}">
+            @csrf
+            <table>
+                <div class="row gx-1 "style="margin-bottom:100px">
+                    <div class="col-md-3 ">
 
-                                <td>
-                                    <button class="btn btn-outline-success" type="submit" name="action"
-                                        value="search">Search</button>
-                                </td>
-                                <td>
-                                    <select class="form-select " aria-label="Default select example" name="selectRecipe"
-                                        id="selectRecipe">
-                                        <option selected></option>
-                                        @isset($foodList)
-                                            @foreach ($foodList as $receta)
-                                                <option value="{{ $receta['recipe_id'] }}:{{ $receta['recipe_description'] }}">
-                                                    {{ $receta['recipe_description'] }}</option>
-                                            @endforeach
-                                        @endisset
-                                    </select>
-                                </td>
+                        <input class="form-control " type="text" placeholder="Search recipe" aria-label="Search"
+                            name="searchRecipe">
 
-
-                                <td>
-                                    <select class="form-select" aria-label="Default select example" name="selectFranja"
-                                        id="selectFranja">
-
-                                        <option selected value="1">Desayuno</option>
-                                        <option value="2">Comida</option>
-                                        <option value="3">Merienda</option>
-                                        <option value="4">Cena</option>
-                                    </select>
-                                </td>
-
-                                <td>
-                                    <button class="btn btn-outline-success" type="submit" name="action"
-                                        value="add">Add</button>
-                                </td>
-
-                            </tr>
-                        </table>
                     </div>
-            </div>
-        </div>
+                    <div class="col-md-1">
+
+                        <button class="btn btn-outline-success" type="submit" name="action" value="search">Search</button>
+
+                    </div>
+                    <div class="col-md-2 ">
+
+                        <select class="form-select " aria-label="Default select example" name="selectRecipe"
+                            id="selectRecipe">
+                            <option selected></option>
+                            @isset($recipeList)
+                                @foreach ($recipeList as $receta)
+                                    <option value="{{ $receta['recipe_id'] }}:{{ $receta['recipe_name'] }}">
+                                        {{ $receta['recipe_name'] }}</option>
+                                @endforeach
+                            @endisset
+                        </select>
+
+
+                    </div>
+                    <div class="col-md-2 ">
+
+                        <select class="form-select" aria-label="Default select example" name="selectFranja"
+                            id="selectFranja">
+
+                            <option selected value="1">Desayuno</option>
+                            <option value="2">Comida</option>
+                            <option value="3">Merienda</option>
+                            <option value="4">Cena</option>
+                        </select>
+
+
+                    </div>
+                    <div class="col-md-3 ">
+
+                        <button class="btn btn-outline-success" type="submit" name="action" value="add">Add</button>
+
+                    </div>
+                </div>
+
+            </table>
+
+
         </form>
-        <div class="col-md-16  ">
+        <div class="col-md-16   ">
             <div class="row ">
                 <form class="d-flex" method="get" action="{{ route('menu/save') }}">
 
@@ -92,7 +95,6 @@
                         </tr>
 
                     </table>
-
 
                     <table>
                         <tr>
@@ -151,4 +153,5 @@
 
             </div>
         </div>
-    @endsection
+    </div>
+@endsection

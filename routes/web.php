@@ -37,6 +37,10 @@ Route::get('recipes', [NewController::class, 'listRecipes'])
     ->middleware('auth')
     ->name('recipes');
 
+Route::get('recipes/search', [NewController::class, 'searchRecipes'])
+    ->middleware('auth')
+    ->name('recipes/search');
+
 
 Route::get('recipes/create', [RecipeController::class, 'createRecipe'])
     ->middleware('auth')

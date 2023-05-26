@@ -6,23 +6,21 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
-                <h3>Lista de menus</h3>
+            <div class="col-md-12">
+                <h3>Menus</h3>
 
-                <table class="table table-striped table-sm">
+                <hr>
+
+                <table class="table table-striped table-m table-sm">
                     <thead>
                         <tr>
-                            <th scope="col"> Id </th>
-                            <th scope="col"> Name </th>
-                            <th scope="col"> Day </th>
-                            <th scope="col"> Id_breakfast </th>
-                            <th scope="col"> breakfast </th>
-                            <th scope="col"> Id_Lunch </th>
-                            <th scope="col"> Lunch </th>
-                            <th scope="col"> Id_Sanck </th>
-                            <th scope="col"> Sanck </th>
-                            <th scope="col"> Id_ Dinner </th>
-                            <th scope="col"> Dinner </th>
+
+                            <th scope="col" class=" h4"> Name </th>
+                            <th scope="col" class=" h4"> Day </th>
+                            <th scope="col" class=" h4"> breakfast </th>
+                            <th scope="col" class=" h4"> Lunch </th>
+                            <th scope="col" class=" h4"> Sanck </th>
+                            <th scope="col" class=" h4"> Dinner </th>
 
                         </tr>
                     </thead>
@@ -30,21 +28,24 @@
                     <tbody>
                         @foreach ($menus as $menu)
                             <tr>
-                                <td>{{ $menu->id }}</td>
-                                <td>{{ $menu->name }}</td>
-                                <td>{{ $menu->dia }}</td>
 
-                                <td><a href="{{ route('recipe/description', ['valor' => $menu->id_recipe_breakfast]) }}">{{ $menu->id_recipe_breakfast }}
-                                    </a>
+                                <td class="col-1">{{ $menu->name }}</td>
+                                <td class="col-1">{{ $menu->dia }}</td>
+                                <td class="col-2"><a
+                                        href="{{ route('recipe/description', ['valor' => $menu->id_recipe_breakfast]) }}">{{ $menu->name_breakfast }}</a>
+                                </td>
+                                <td class="col-2"><a
+                                        href="{{ route('recipe/description', ['valor' => $menu->id_recipe_lunch]) }}">{{ $menu->name_lunch }}</a>
                                 </td>
 
-                                <td>{{ $menu->name_breakfast }}</td>
-                                <td>{{ $menu->id_recipe_lunch }}</td>
-                                <td>{{ $menu->name_lunch }}</td>
-                                <td>{{ $menu->id_recipe_snack }}</td>
-                                <td>{{ $menu->name_snack }}</td>
-                                <td>{{ $menu->id_recipe_dinner }}</td>
-                                <td>{{ $menu->name_dinner }}</td>
+                                <td class="col-3"><a
+                                        href="{{ route('recipe/description', ['valor' => $menu->id_recipe_snack]) }}">{{ $menu->name_snack }}</a>
+                                </td>
+
+                                <td class="col-4"><a
+                                        href="{{ route('recipe/description', ['valor' => $menu->id_recipe_dinner]) }}">{{ $menu->name_dinner }}</a>
+                                </td>
+
                             </tr>
                         @endforeach
                     </tbody>

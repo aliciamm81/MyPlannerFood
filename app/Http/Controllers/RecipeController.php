@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\recipes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class RecipeController extends Controller
 {
@@ -17,20 +18,30 @@ class RecipeController extends Controller
 
     function saveRecipe(Request $request)
     {
-        $recipes = new recipes();
-        $recipes->recipe_name = $request->input('name');
-        $recipes->recipe_description = $request->input('description');
-        $recipes->ingredient = $request->input('ingredient');
-        $recipes->calories = $request->input('calories');
-        $recipes->carbohydrate = $request->input('carbohydrate');
-        $recipes->fat = $request->input('fat');
-        $recipes->protein = $request->input('protein');
-        $recipes->recipe_image = $request->input('recipe_image');
-        $recipes->user_id =
-            Auth::user()->id;
+        if (isset($request->input)) {
 
-        $recipes->save();
-        return view('vista_recipes_create');
+
+            $recipes = new recipes();
+            $recipes->recipe_name = $request->input('name');
+            $recipes->recipe_description = $request->input('description');
+            $recipes->ingredient = $request->input('ingredient');
+            $recipes->calories = $request->input('calories');
+            $recipes->carbohydrate = $request->input('carbohydrate');
+            $recipes->fat = $request->input('fat');
+            $recipes->protein = $request->input('protein');
+
+            $recipes->recipe_image = $request->input('imagen');
+            /* $ruta = $imagen->store('public/image');
+            $recipes->recipe_image = $ruta;*/
+
+            $recipes->user_id =
+                Auth::user()->id;
+
+            $recipes->save();
+            return view('vista_recipes_create');
+        } else {
+            return view('vista_recipes_create');
+        }
     }
 
     function listRecipesUsers()
@@ -54,6 +65,7 @@ class RecipeController extends Controller
     }
     function recipeUserDescription($valor)
     {
+
         $recipes = DB::table('recipes')
             ->select(
                 'recipe_name',
@@ -64,6 +76,7 @@ class RecipeController extends Controller
             ->where('id', '=', $valor)
             ->get();
 
-        return view('vista_recipe_users', ['recipes' => $recipes]);
+
+        return view('vista_recipe_users_description', ['recipes' => $recipes]);
     }
 }

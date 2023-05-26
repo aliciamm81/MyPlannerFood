@@ -21,23 +21,39 @@
     <link href="https://fonts.googleapis.com/css2?family=Assistant&display=swap" rel="stylesheet">
 
     <style>
-        #sidebarMenu {
-            background-color: $green-200;
-        }
-
         a {
             text-decoration-line: none;
-            color: green;
+            color: #8b6d5c;
         }
 
-        th {
-            color: green;
+        th,
+        h1,
+        h2,
+        h3,
+        h4,
+        th.h4 {
+            color: #72ba55;
 
+        }
+
+        h4 {
+            font-size: 18px;
+        }
+
+        #sidebarMenu {
+            background-color: #72ba55;
         }
 
         body {
 
             font-family: 'Assistant', sans-serif;
+        }
+
+        .steps {
+            border-left: none;
+            border-left-color: 0.3px #72ba55;
+            box-shadow: -4px 0px 5px 0px #72ba55;
+
         }
     </style>
 
@@ -47,13 +63,13 @@
 <body>
     <div class="container-fluid">
         <div class="row">
-            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block text-bg-success sidebar collapse">
+            <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block text-Light sidebar collapse">
                 <div class="position-sticky pt-3">
                     <ul class="nav flex-column">
-                        <li><img src="{{ asset('images/logo1.png') }}"class="img-thumbnail"></li>
+                        <li><img src="{{ asset('images/logo3.png') }}"class="img-thumbnail"></li>
                         <li class="nav-item p-3 dropdown">
                             <a class="navbar-brand dropdown-toggle" data-bs-toggle="dropdown"><i
-                                    class="fas fa-home"></i>&nbsp
+                                    class="fas fa-book"></i>&nbsp
                                 Recipes</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="/recipes">Recipes</a></li>
@@ -65,7 +81,7 @@
                         </li>
                         <li class="nav-item p-3 dropdown">
                             <a class="navbar-brand dropdown-toggle" data-bs-toggle="dropdown" href="/menu"><i
-                                    class="fas fa-home"></i>&nbsp Menu</a>
+                                    class="fas fa-calendar"></i>&nbsp Menu</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="/menu">Create menu</a></li>
                                 <li><a class="dropdown-item" href="/menu/create">List Menu</a></li>
@@ -74,7 +90,7 @@
 
                         </li>
                         <li class="nav-item p-3">
-                            <a class="navbar-brand" href="/food"><i class="fas fa-home"></i>&nbsp Food</a>
+                            <a class="navbar-brand" href="/food"><i class="fas fa-carrot"></i>&nbsp Food</a>
                         </li>
                     </ul>
                 </div>

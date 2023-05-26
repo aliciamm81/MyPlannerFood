@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 //use Google\Cloud\Translate\V2\TranslateClient
 use Illuminate\Support\Facades\Session;
+use Throwable;
 
 class NewController extends Controller
 {
@@ -14,16 +15,32 @@ class NewController extends Controller
      * después decodifica la respuesta JSON en un array asociativo de PHP
      * y devuelve la vista con los datos de las recetas obtenidos de la API
      *  */
-    public function listRecipes()
+    public function listRecipes(Request $request)
     {
-        $qry_str          = "?method=recipes.search.v3&format=json&page_number=50";
-        $curlData         = $this->ejecutarCurl($qry_str);
-        $datosRecipesList = json_decode($curlData, true);
-        return view('vista_recipes', ['recipeList' => $datosRecipesList['recipes']['recipe']]);
+        if ($request->has('recipes')) {
+            $texto_busqueda = $request->input('recipes');
+            if ($texto_busqueda != "") {
+
+                $datos = $this->callApiRecipesSearch($texto_busqueda);
+                return view('vista_recipes', ['recipeList' => $datos]);
+            } else {
+                $qry_str          = "?method=recipes.search.v3&format=json&page_number=20";
+                $curlData         = $this->ejecutarCurl($qry_str);
+                $datos = json_decode($curlData, true);
+                return view('vista_recipes', ['recipeList' => $datos['recipes']['recipe']]);
+            }
+        } else {
+            $qry_str          = "?method=recipes.search.v3&format=json&page_number=20";
+            $curlData         = $this->ejecutarCurl($qry_str);
+            $datos = json_decode($curlData, true);
+            return view('vista_recipes', ['recipeList' => $datos['recipes']['recipe']]);
+        }
     }
 
     public function searchRecipes(Request $request)
     {
+
+
         $datos = [];
         echo "inicio ";
         switch ($request->input('action')) {
@@ -31,16 +48,18 @@ class NewController extends Controller
             case 'search':
 
                 if ($request->has('searchRecipe')) {
+
                     $texto_busqueda = $request->input('searchRecipe');
                     echo $texto_busqueda;
 
                     //$datos = $this->callApiFoodsSearch($texto_busqueda);
                     $datos = $this->callApiRecipesSearch($texto_busqueda);
                     echo " fin";
-                    return view('vista_menu', ['foodList' => $datos]);
+                    return view('vista_menu', ['recipeList' => $datos]);
                 }
 
                 break;
+
 
             case 'add':
                 $texto_franja = $request->input('selectFranja');
@@ -77,6 +96,7 @@ class NewController extends Controller
                 } else {
                     echo "caca";
                 }
+
                 break;
         }
         return view('vista_menu');
@@ -84,19 +104,27 @@ class NewController extends Controller
 
     public function searchFoods(Request $request)
     {
-        $datos = [];
-        echo "inicio ";
+        try {
 
-        if ($request->has('searchFood')) {
-            $texto_busqueda = $request->input('searchFood');
-            echo $texto_busqueda;
+            $datos = [];
+            echo "inicio ";
 
-            $datos = $this->callApiFoodsSearch($texto_busqueda);
-            echo " fin";
-            return view('vista_food', ['foodList' => $datos]);
+            if ($request->has('searchFood')) {
+                $texto_busqueda = $request->input('searchFood');
+                echo $texto_busqueda;
+
+                $datos = $this->callApiFoodsSearch($texto_busqueda);
+                echo " fin";
+                return view('vista_food', ['foodList' => $datos]);
+            }
+
+            return view('vista_food');
+        } catch (Throwable $e) {
+            report($e);
+            $error = "no valor";
+            return
+                view('vista_food');
         }
-
-        return view('vista_food');
     }
 
     public function callApiRecipesSearch(string $texto_busqueda)
