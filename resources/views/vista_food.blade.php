@@ -9,11 +9,12 @@
                     <fieldset>
                         <h3>Foods</h3>
 
+
                         <form class="d-flex " method="get" action="{{ route('food') }}">
                             <div class="row mb-4 mt-3 gx-1">
                                 <div class="col-md-8">
-                                    <input class="form-control me-5" type="text" placeholder="" aria-label="Search"
-                                        name="searchFood">
+                                    <input class="form-control me-5" type="text" placeholder="Search food"
+                                        aria-label="Search" name="searchFood">
                                 </div>
 
                                 <div class="col-md-4">

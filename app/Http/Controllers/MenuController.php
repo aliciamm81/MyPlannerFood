@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
+use Throwable;
 
 
 class MenuController extends Controller
@@ -16,38 +18,38 @@ class MenuController extends Controller
 
     function createMenu(Request $request)
     {
-        if (isset($request->input)) {
+        try {
 
 
-            $menu = new menu();
-            $menu->dia = $request->input('day');
+            $menu                      = new menu();
+            $menu->dia                 = $request->input('day');
             $menu->id_recipe_breakfast = $request->input('selectedBreakfast_id');
-            $menu->name_breakfast = $request->input('selectedBreakfast');
+            $menu->name_breakfast      = $request->input('selectedBreakfast');
 
 
             $menu->id_recipe_lunch = $request->input('selectedLunch_id');
-            $menu->name_lunch = $request->input('selectedLunch');
+            $menu->name_lunch      = $request->input('selectedLunch');
 
 
             $menu->id_recipe_snack = $request->input('selectedSnack_id');
-            $menu->name_snack = $request->input('selectedSnack');
+            $menu->name_snack      = $request->input('selectedSnack');
 
 
             $menu->id_recipe_dinner = $request->input('selectedDinner_id');
-            $menu->name_dinner = $request->input('selectedDinner');
+            $menu->name_dinner      = $request->input('selectedDinner');
 
 
-            $menu->name = $request->input('menuName');
+            $menu->name    = $request->input('menuName');
             $menu->user_id = Auth::user()->id;
 
             $menu->save();
 
             $this->deleteSession();
-
-
             return view('vista_menu');
-        } else {
-            return view('vista_menu');
+        } catch (Throwable $e) {
+            report($e);
+            Session::flash('error', 'Se produjo un error: ' . $e->getMessage());
+            return redirect()->back();
         }
     }
 
@@ -86,6 +88,7 @@ class MenuController extends Controller
                 'name_dinner',
             )
             ->where('user_id', '=', $user)
+            ->orderBy('name')
             ->get();
 
 

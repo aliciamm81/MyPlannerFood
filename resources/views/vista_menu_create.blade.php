@@ -8,7 +8,11 @@
         <div class="row">
             <div class="col-md-12">
                 <h3>Menus</h3>
-
+                @if (Session::has('error'))
+                    <div class="alert alert-danger">
+                        <h4>An internal message has occurred. Please contact the administrator</h4>
+                    </div>
+                @endif
                 <hr>
 
                 <table class="table table-striped table-m table-sm">
@@ -17,7 +21,7 @@
 
                             <th scope="col" class=" h4"> Name </th>
                             <th scope="col" class=" h4"> Day </th>
-                            <th scope="col" class=" h4"> breakfast </th>
+                            <th scope="col" class=" h4"> Breakfast </th>
                             <th scope="col" class=" h4"> Lunch </th>
                             <th scope="col" class=" h4"> Sanck </th>
                             <th scope="col" class=" h4"> Dinner </th>

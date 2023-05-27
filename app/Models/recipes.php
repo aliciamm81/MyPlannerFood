@@ -13,12 +13,14 @@ class recipes extends Model
         'recipe_name',
         'recipe_description',
         'ingredient',
+        'time',
         'calories',
         'carbohydrate',
         'fat',
         'protein',
         'recipe_image',
         'user_id',
+        'steps',
 
     ];
     use HasFactory;

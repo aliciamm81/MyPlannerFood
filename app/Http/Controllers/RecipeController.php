@@ -8,6 +8,8 @@ use App\Models\recipes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Session;
+use Throwable;
 
 class RecipeController extends Controller
 {
@@ -18,13 +20,13 @@ class RecipeController extends Controller
 
     function saveRecipe(Request $request)
     {
-        if (isset($request->input)) {
-
-
+        try {
             $recipes = new recipes();
             $recipes->recipe_name = $request->input('name');
             $recipes->recipe_description = $request->input('description');
             $recipes->ingredient = $request->input('ingredient');
+            $recipes->steps = $request->input('steps');
+            $recipes->time = $request->input('time');
             $recipes->calories = $request->input('calories');
             $recipes->carbohydrate = $request->input('carbohydrate');
             $recipes->fat = $request->input('fat');
@@ -38,9 +40,12 @@ class RecipeController extends Controller
                 Auth::user()->id;
 
             $recipes->save();
+
             return view('vista_recipes_create');
-        } else {
-            return view('vista_recipes_create');
+        } catch (Throwable $e) {
+            report($e);
+            Session::flash('error', 'Se produjo un error: ' . $e->getMessage());
+            return redirect()->back();
         }
     }
 
@@ -52,6 +57,8 @@ class RecipeController extends Controller
                 'recipe_name',
                 'recipe_description',
                 'ingredient',
+                'steps',
+                'time',
                 'calories',
                 'carbohydrate',
                 'fat',
@@ -70,6 +77,8 @@ class RecipeController extends Controller
             ->select(
                 'recipe_name',
                 'recipe_description',
+                'time',
+                'steps',
                 'ingredient',
                 'recipe_image',
             )

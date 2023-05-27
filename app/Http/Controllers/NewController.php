@@ -39,67 +39,69 @@ class NewController extends Controller
 
     public function searchRecipes(Request $request)
     {
+        try {
+            $datos = [];
+            switch ($request->input('action')) {
+
+                case 'search':
+
+                    if ($request->has('searchRecipe')) {
+
+                        $texto_busqueda = $request->input('searchRecipe');
 
 
-        $datos = [];
-        echo "inicio ";
-        switch ($request->input('action')) {
+                        //$datos = $this->callApiFoodsSearch($texto_busqueda);
+                        $datos = $this->callApiRecipesSearch($texto_busqueda);
 
-            case 'search':
-
-                if ($request->has('searchRecipe')) {
-
-                    $texto_busqueda = $request->input('searchRecipe');
-                    echo $texto_busqueda;
-
-                    //$datos = $this->callApiFoodsSearch($texto_busqueda);
-                    $datos = $this->callApiRecipesSearch($texto_busqueda);
-                    echo " fin";
-                    return view('vista_menu', ['recipeList' => $datos]);
-                }
-
-                break;
-
-
-            case 'add':
-                $texto_franja = $request->input('selectFranja');
-                echo $texto_franja;
-                $selectRecipe = $request->input('selectRecipe');
-                echo $selectRecipe;
-                echo "--";
-                $parts = explode(':', $selectRecipe); // busca el identificador ":" dentro de la cadena y lo guarda en un array
-                $id = $parts[0];
-                $name = $parts[1];
-                if ($texto_franja != "" && $selectRecipe != "") {
-                    if ($texto_franja == 1) {
-                        echo " desayuno";
-                        Session::put('selectedBreakfast', $name);
-                        Session::put('selectedBreakfast_id', $id);
-
-                        echo Session::get('selectedBreakfast');
-                    } else if ($texto_franja == 2) {
-                        echo " comida";
-                        Session::put('selectedLunch', $name);
-                        Session::put('selectedLunch_id', $id);
-                        echo Session::get('selectedLunch');
-                    } else if ($texto_franja == 3) {
-                        echo " snack";
-                        Session::put('selectedSnack', $name);
-                        Session::put('selectedSnack_id', $id);
-                        echo Session::get('selectedSnack');
-                    } else if ($texto_franja == 4) {
-                        echo " dinner";
-                        Session::put('selectedDinner', $name);
-                        Session::put('selectedDinner_id', $id);
-                        echo Session::get('selectedDinner');
+                        return view('vista_menu', ['recipeList' => $datos]);
                     }
-                } else {
-                    echo "caca";
-                }
 
-                break;
+                    break;
+
+
+                case 'add':
+                    try {
+
+                        $texto_franja = $request->input('selectFranja');
+
+                        $selectRecipe = $request->input('selectRecipe');
+
+                        $parts = explode(':', $selectRecipe); // busca el identificador ":" dentro de la cadena y lo guarda en un array
+                        $id = $parts[0];
+                        $name = $parts[1];
+                        if ($texto_franja != "" && $selectRecipe != "") {
+                            if ($texto_franja == 1) {
+
+                                Session::put('selectedBreakfast', $name);
+                                Session::put('selectedBreakfast_id', $id);
+                            } else if ($texto_franja == 2) {
+
+                                Session::put('selectedLunch', $name);
+                                Session::put('selectedLunch_id', $id);
+                            } else if ($texto_franja == 3) {
+
+                                Session::put('selectedSnack', $name);
+                                Session::put('selectedSnack_id', $id);
+                            } else if ($texto_franja == 4) {
+
+                                Session::put('selectedDinner', $name);
+                                Session::put('selectedDinner_id', $id);
+                            }
+                        }
+
+                        break;
+                    } catch (Throwable $e) {
+                        report($e);
+                        Session::flash('error', 'Se produjo un error: ' . $e->getMessage());
+                        return redirect()->back();
+                    }
+            }
+            return view('vista_menu');
+        } catch (Throwable $e) {
+            report($e);
+
+            return view('vista_menu');
         }
-        return view('vista_menu');
     }
 
     public function searchFoods(Request $request)
@@ -107,23 +109,18 @@ class NewController extends Controller
         try {
 
             $datos = [];
-            echo "inicio ";
+
 
             if ($request->has('searchFood')) {
                 $texto_busqueda = $request->input('searchFood');
-                echo $texto_busqueda;
-
                 $datos = $this->callApiFoodsSearch($texto_busqueda);
-                echo " fin";
                 return view('vista_food', ['foodList' => $datos]);
             }
 
             return view('vista_food');
         } catch (Throwable $e) {
             report($e);
-            $error = "no valor";
-            return
-                view('vista_food');
+            return view('vista_food');
         }
     }
 
@@ -174,6 +171,7 @@ class NewController extends Controller
         $qry_str   = '?method=food.get.v2&food_id=' . $id_recipe . '&format=json';
         $curlData  = $this->ejecutarCurl($qry_str);
         $datosFood = json_decode($curlData, true);
+        //print_r($datosFood);
 
         return view('vista_food_description', ['datosfood' => $datosFood['food']]);
     }

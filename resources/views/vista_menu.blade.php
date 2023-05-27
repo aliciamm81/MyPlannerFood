@@ -6,6 +6,11 @@
     <div class="container">
 
         <h1>Create Menu</h1>
+        @if (Session::has('error'))
+            <div class="alert alert-danger">
+                <h4>An internal message has occurred. Please contact the administrator</h4>
+            </div>
+        @endif
         <form class=" mt-4" method="get" action="{{ route('menu') }}">
             @csrf
             <table>
@@ -41,10 +46,10 @@
                         <select class="form-select" aria-label="Default select example" name="selectFranja"
                             id="selectFranja">
 
-                            <option selected value="1">Desayuno</option>
-                            <option value="2">Comida</option>
-                            <option value="3">Merienda</option>
-                            <option value="4">Cena</option>
+                            <option selected value="1">Breakfast</option>
+                            <option value="2">Lunch</option>
+                            <option value="3">Snack</option>
+                            <option value="4">Dinner</option>
                         </select>
 
 
@@ -71,12 +76,12 @@
                             <td> <select class="form-select" aria-label="Default select example" id="menuName"
                                     name="menuName">
 
-                                    <option selected value="Semana1">Semana1</option>
-                                    <option value="Samana2">Samana2</option>
-                                    <option value="Semana3">Semana3</option>
-                                    <option value="Semana4">Semana4</option>
-                                    <option value="Semana5">Semana5</option>
-                                    <option value="Semana6">Semana6</option>
+                                    <option selected value="Week1">Week1</option>
+                                    <option value="Week2">Week2</option>
+                                    <option value="Week3">Week3</option>
+                                    <option value="Week4">Week4</option>
+                                    <option value="Week5">Week5</option>
+                                    <option value="Week6">Week6</option>
                                 </select>
                             </td>
                         </tr>
@@ -84,13 +89,13 @@
                             <td> <select class="form-select" aria-label="Default select example" id="selectDay1"
                                     name="day">
 
-                                    <option selected value="Lunes">Lunes</option>
-                                    <option value="Martes">Martes</option>
-                                    <option value="Miercoles">Miercoles</option>
-                                    <option value="Jueves">Jueves</option>
-                                    <option value="Viernes">Viernes</option>
-                                    <option value="Sábado">Sábado</option>
-                                    <option value="Domingo">Domingo</option>
+                                    <option selected value="Monday">Monday</option>
+                                    <option value="Tuesday">Tuesday</option>
+                                    <option value="Wednesday">Wednesday</option>
+                                    <option value="Thursday">Thursday</option>
+                                    <option value="Friday">Friday</option>
+                                    <option value="Saturday">Saturday</option>
+                                    <option value="Sunday">Sunday</option>
                                 </select></td>
                         </tr>
 
@@ -98,7 +103,7 @@
 
                     <table>
                         <tr>
-                            <td><input class="form-control text-center" type="text" id="labelBreakfast" value="Desayuno"
+                            <td><input class="form-control text-center" type="text" id="labelBreakfast" value="Breakfast"
                                     name="labelBreakfast" readonly>
                             </td>
                             <td><input class="form-control" type="text" id="selectedBreakfast_id"
@@ -111,7 +116,7 @@
 
                         </tr>
                         <tr>
-                            <td><input class="form-control text-center" type="text" id="labelLunch" value="Comida"
+                            <td><input class="form-control text-center" type="text" id="labelLunch" value="Lunch"
                                     name="labelLunch" readonly>
                             </td>
                             <td><input class="form-control" type="text" id="selectedLunch_id"
@@ -122,7 +127,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><input class="form-control text-center" type="text" id="labelSnack" value="Merienda"
+                            <td><input class="form-control text-center" type="text" id="labelSnack" value="Snack"
                                     name="labelSnack" readonly>
                             </td>
                             <td><input class="form-control" type="text" id="selectedSnack_id"
@@ -134,7 +139,7 @@
 
                         </tr>
                         <tr>
-                            <td><input class="form-control text-center" type="text" id="labelDinner" value="Cena"
+                            <td><input class="form-control text-center" type="text" id="labelDinner" value="Dinner"
                                     name="labelDinner" readonly>
                             </td>
                             <td><input class="form-control" type="text" id="selectedDinner_id"

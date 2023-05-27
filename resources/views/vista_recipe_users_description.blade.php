@@ -6,7 +6,9 @@
         <div class="mb-4">
             @foreach ($recipes as $recipe)
                 <h2>{{ $recipe->recipe_name }}</h2>
+                <p>{{ $recipe->recipe_description }}</p>
             @endforeach
+
 
             <p></p>
 
@@ -17,7 +19,7 @@
             <div class="col-6">
 
                 @foreach ($recipes as $recipe)
-                    <img src="images/{{ $recipe->recipe_image }}" alt="Imagen de la receta" />
+                    <img src="images/{{ $recipe->recipe_image }}" alt=" No image available " />
                 @endforeach
             </div>
 
@@ -26,10 +28,12 @@
                 <h3>Recipe steps</h3>
 
                 @foreach ($recipes as $recipe)
-                    <p>{{ $recipe->recipe_description }}</p>
+                    <h4>Prep Time: {{ $recipe->time }} mins</h4>
+
+                    <p>{{ $recipe->steps }}</p>
                 @endforeach
 
-                <h4>Step :</h4>
+
 
 
 
@@ -48,8 +52,7 @@
                     <li>{{ $recipe->ingredient }}</li>
                 @endforeach
 
-                <p> &nbsp&nbsp&nbsp <i class="fas fa-weight"></i>&nbsp
-                </p>
+
 
             </ul>
 
