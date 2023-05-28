@@ -80,7 +80,7 @@ class RecipeController extends Controller
                 'time',
                 'steps',
                 'ingredient',
-                'recipe_image',
+                'recipe_image'
             )
             ->where('id', '=', $valor)
             ->get();

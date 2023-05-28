@@ -66,7 +66,8 @@ class NewController extends Controller
 
                         $selectRecipe = $request->input('selectRecipe');
 
-                        $parts = explode(':', $selectRecipe); // busca el identificador ":" dentro de la cadena y lo guarda en un array
+                        // busca el identificador ":" dentro de la cadena y lo guarda en un array
+                        $parts = explode(':', $selectRecipe);
                         $id = $parts[0];
                         $name = $parts[1];
                         if ($texto_franja != "" && $selectRecipe != "") {

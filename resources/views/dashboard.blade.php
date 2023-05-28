@@ -1,8 +1,15 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
+        <div class="flex items-center">
+            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight mr-4 ml-3">
+                {{ __('Home') }}
+            </h2>
+            <ul style="margin-right:15px;margin-left: 60px;" class="flex space-x-6">
+                <li style="margin-left:15px"><a href="/recipes">Recipes</a></li>
+                <li style="margin-left:15px"><a href="/food">Food</a></li>
+                <li style="margin-left:15px"><a href="/menu">Menu</a></li>
+            </ul>
+        </div>
     </x-slot>
 
     <div class="py-12">

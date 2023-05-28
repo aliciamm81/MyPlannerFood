@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class recipes extends Model
 {
+    use HasFactory;
+
     protected $table = 'recipes';
     protected $fillable = [
         'id',
@@ -23,9 +25,4 @@ class recipes extends Model
         'steps',
 
     ];
-    use HasFactory;
-    /*  public function user()
-    {
-        return $this->hasMany(User::class);
-    }*/
 }

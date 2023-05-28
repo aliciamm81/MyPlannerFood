@@ -19,8 +19,9 @@
             <div class="col-6">
 
                 @foreach ($recipes as $recipe)
-                    <img src="images/{{ $recipe->recipe_image }}" alt=" No image available " />
+                    <img src="{{ base64_encode($recipe->recipe_image) }}" alt=" view image in construction " />
                 @endforeach
+
             </div>
 
             <div class="col-6 steps text-center pt-3">

@@ -91,11 +91,6 @@ class MenuController extends Controller
             ->orderBy('name')
             ->get();
 
-
-
-        //  $usuarios = User::all();
-        //  $menus = menu::all();
-
         return view('vista_menu_create', ['menus' => $menus]);
     }
 }
