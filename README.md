@@ -25,9 +25,14 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 
 ## Installation
 
+To run the project, simply launch the Artisan command that starts the integrated web server in PHP. This command will run a server on port 8000, which can be accessed through the URL: http://localhost:8000.
 
 ## Contact
 
+I have the following contact channels:
+
+- Linkedin: https://www.linkedin.com/in/alicia-mart%C3%ADnez-maqueda/
+- Email: aliciamm81@gmail.com
 
 ## Learning Laravel
 
@@ -71,4 +76,4 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The My Planner Food is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
