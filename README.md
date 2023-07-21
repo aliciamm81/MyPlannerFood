@@ -1,4 +1,4 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<p align="center"><img src="/public/images/logo3.png" width="200" height="200" alt="Laravel Logo"></a></p>
 
 <p align="center">
 <a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
@@ -7,9 +7,11 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+## About My Planner Food
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+This project will aim to provide solutions to home organizational problems in the nutritional field. To achieve this, we will implement a web application where users can access a wide variety of recipes to create their own daily menus. It will also allow them to assess the nutritional value of these menus, as well as calculate the calories.
+
+It is created in Laravel, which grants it the following features:
 
 - [Simple, fast routing engine](https://laravel.com/docs/routing).
 - [Powerful dependency injection container](https://laravel.com/docs/container).
